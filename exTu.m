@@ -1,8 +1,15 @@
-% This is the example-Tutorial m-file haha
+% This is the example-Tutorial m-file
 
 import gpao.*
 
 maxIter = 50; % number of active-learning iterations
+
+%% Check if we have access to GPML
+if ~exist('gp', 'file')
+    error('Add GPML in the path please!');
+else
+    fprintf('Using GPML installed in [%s]\n', which('gp'));
+end
 
 %% this is the function we want find the minimum of
 % domain represents the domain of the function
