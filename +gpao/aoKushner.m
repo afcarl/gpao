@@ -49,12 +49,9 @@ assert(N == numel(observedY)); observedY = observedY(:);
 %% Make the grid
 nTestPerDim = max(ceil(200^(1/d)), 10); % Make the grid for Pmin sampling
 nTest = nTestPerDim^d;
-nCandidateSample = nTest; % candidate x_{n+1} to be drawn at every step
 
-xTestDiff = zeros(d, 1);
 if d == 1 % Grid to evaluate things (1D)
     xTest = linspace(xRange(:,1), xRange(:,2), nTest)'; 
-    xTestDiff = xTest(2) - xTest(1); % grid interval
 else
     xtr = cell(d, 1);
     for kD = 1:d
@@ -63,7 +60,6 @@ else
     xTest = zeros(nTest, d);
     for kD = 1:d
 	xr = xtr{kD};
-	xTestDiff(kD) = xr(2) - xr(1);
 	xr = xr(:, ones(1, nTest/nTestPerDim));
 	xr = permute(xr, [2:kD 1 kD+1:d]);
 	xTest(:, kD) = xr(:);
@@ -76,7 +72,7 @@ x = observedX; y = observedY;
 gps = evidenceOptHyp(gps, x, y);
 
 %% Perform GP on the test grid
-[ym ys2 m s2] = gp(gps.hyp, @infExact, gps.meanfunc, gps.covfunc, ...
+[~, ~, m, s2] = gp(gps.hyp, @infExact, gps.meanfunc, gps.covfunc, ...
 		   gps.likfunc, x, y, xTest);
 s = sqrt(s2);
 
@@ -85,11 +81,14 @@ s = sqrt(s2);
 
 %% Kushner criterion
 % x(next) = arg max_{x} Pr[ f(x) < z - e ]
-%z = z - e;
+
+% z <- z - e;
 z = z - s(zi)/10;
+% tail probability
 ef = erf((z-m)/sqrt(2)./s)/2 + .5; % se = sum(ef); ef = ef / se;
-[dummy, mefi] = max(ef);
-idxNext = mefi;
+
+% argmax
+[~, idxNext] = max(ef);
 
 nextX = xTest(idxNext, :);
 

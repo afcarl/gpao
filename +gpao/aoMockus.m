@@ -47,12 +47,9 @@ assert(N == numel(observedY)); observedY = observedY(:);
 
 %% Parameters of the algorithm
 nMinGridPoints = 200;
-isSmoothGrid = true;
 
 %% Make the grid for Pmin sampling
-[xTest, xTestDiff, nTest, nTestPerDim] = makeGrid(xRange, nMinGridPoints);
-
-nCandidateSample = nTest; % candidate x_{n+1} to be drawn at every step
+xTest = makeGrid(xRange, nMinGridPoints);
 
 x = observedX; y = observedY;
 
@@ -60,7 +57,7 @@ x = observedX; y = observedY;
 gps = evidenceOptHyp(gps, x, y);
 
 %% Perform GP on the test grid
-[ym ys2 m s2] = gp(gps.hyp, @infExact, gps.meanfunc, gps.covfunc, ...
+[~, ~, m, s2] = gp(gps.hyp, @infExact, gps.meanfunc, gps.covfunc, ...
 		   gps.likfunc, x, y, xTest);
 s = sqrt(s2);
 
@@ -71,7 +68,7 @@ z = z - s(zi)/10;
 ef = normcdf2(z, m, s);
 %ef = (z-m) .* (erf((z-m)/sqrt(2)./s)/2 + .5) + s .* exp(-(z-m).^2./s2); % se = sum(ef); ef = ef / se; % <== numerically unstable
 ef = ef + s .* exp(-(z-m).^2./s2); % se = sum(ef); ef = ef / se;
-[dummy, mefi] = max(ef);
+[~, mefi] = max(ef);
 idxNext = mefi;
 
 nextX = xTest(idxNext, :);
