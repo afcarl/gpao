@@ -38,33 +38,33 @@ case {'f1', 'simulated annealing i'}
     % Cox & John f1
     f = @(x,y)(2*x.^2 + 2*y.^2 - 0.3*cos(3*pi*x) - 0.4*cos(4*pi*y) + 0.7);
     domain = [-1 1; -1 1];
-    trueMinLoc = [0, 0];
+    trueMinLoc = [0; 0];
 case {'f2', 'simulated annealing ii'}
     % Cox & John f2
     f = @(x,y)(2*x.^2 + 2*y.^2 - 0.3*cos(3*pi*x).*cos(4*pi*y) + 0.3);
     domain = [-1 1; -1 1];
-    trueMinLoc = [0, 0];
+    trueMinLoc = [0; 0];
 case {'f3', 'simulated annealing iii'}
     % Cox & John f3
     f = @(x,y)(2*x.^2 + 2*y.^2 - 0.3*cos(3*pi*x + 4*pi*y) + 0.3);
     domain = [-1 1; -1 1];
-    trueMinLoc = [0, 0];
+    trueMinLoc = [0; 0];
 case {'f4', 'sine function'}
     % Cox & John f4
     f = @(x,y)(sin(x).^2 + sin(y).^2 - 0.1 * exp(-x.^2 - y.^2));
     domain = [-10 10; -10 10];
-    trueMinLoc = [0, 0];
+    trueMinLoc = [0; 0];
 case {'f5', 'tree hump camel-back'}
     f = @(x,y)(2*x.^2 - 1.05 * x.^4 + x.^6 / 6 - x.*y + y.^2);
     domain = [-3 3;-1.5 1.5];
-    trueMinLoc = [0, 0];
+    trueMinLoc = [0; 0];
 case {'f6', 'hosaki'}
     fx = @(x)(1 - 8*x + 7*x.^2 - (7/3)*(x.^3) + (x.^4)/4);
     fy = @(y)((y.^2) .* exp(-y));
     f = @(x,y) fx(x) .* fy(y);
     domain = [0 5;0 6];
-    trueMinLoc = [4, 2];
-    localMinLoc = [1, 2];
+    trueMinLoc = [4; 2];
+    localMinLoc = [1; 2];
 case {'f7', 'goldstein and price'}
 %    f = @(x,y)((1+(x+y+1).^2 ...
 %	    * (19 - 14*x + 3*x.^2 - 14*y + 6*x.*y + 3*y.^2)) ...
@@ -76,7 +76,7 @@ case {'f7', 'goldstein and price'}
     f = @(x,y) a(x,y).*b(x,y);
     % Schonlau Ph.D. dissertation p. 51
     domain = [-2 2;-2 2];
-    trueMinLoc = [0, -1];
+    trueMinLoc = [0; -1];
 case {'f8', 'branin'}
     %f = @(x,y)((y - (5/4)*(pi^2)*x.^2 + (5/pi)*x - 6).^2 + 10 * (1 - 1/(8*pi)) * cos(x) + 10);
     % Ref: Torn and Zilinskas 1989
@@ -98,7 +98,7 @@ case {'f11', 'peaks'}
     % MATLAB Peaks function
     f = @(x,y) peaks(x,y);
     domain = [-3 3; -3 3];
-    trueMinLoc = [0.25, -1.625];
+    trueMinLoc = [0.25; -1.625];
 otherwise
     error('Unknown test function name [%s]', name);
 end
